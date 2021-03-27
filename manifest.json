@@ -5,7 +5,8 @@
 
 	"description": "Firefox extension to grab Google Meet blue shield (host controls) before the meeting creator.",
 	"icons": {
-		"48": ""
+		"48": "icons/icon-48.png",
+		"96": "icons/icon-96.png"
 	},
 
 	"content_scripts": [
