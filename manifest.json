@@ -1,0 +1,18 @@
+{
+	"manifest_version": 2,
+	"name": "ShieldGrabber",
+	"version": "1.0",
+
+	"description": "",
+	"icons": {
+		"48": ""
+	},
+
+	"content_scripts": [
+		{
+			"matches": ["*://classroom.google.com/*"],
+			"js": ["shieldgrabber.js"]
+		}
+	]
+}
+
