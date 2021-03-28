@@ -2,11 +2,14 @@
 
 const mainCardClass = 'qyN25';
 const linkDivClass = 'QRiHXd';
+const containerClass = 'T4tcpe n0p5v';  // Title, subtitle and link (if exists) container
 
-let waitUntilExists = async className => {
-	while (!document.getElementsByClassName(className).length) {
-		console.log("waiting");
-		await new Promise(r => setTimeout(r, 500));
+let waitUntilExists = async (parentNode, className, timeoutTime) => {  // if timeoutTime === -1 -> wait forever 
+	const sleepTime = 500
+	var counter = 0;
+	while ((timeoutTime !== -1 && counter*sleepTime < timeoutTime) || !parentNode.getElementsByClassName(className).length) {
+		await new Promise(r => setTimeout(r, sleepTime));
+		counter++;
 	}
 }
 
@@ -36,19 +39,21 @@ let observer = new MutationObserver(mutationRecords => {
 	});
 });
 
-console.log("start");
-waitUntilExists(mainCardClass);
-console.log("finis waiting");
-
-var targets = Array.prototype.slice.call(document.getElementsByClassName(mainCardClass));
-// console.log(targets);
-targets.forEach(target => {
-	tryOpenMeetLink(target, linkDivClass, false);  // If the link is already there -> try to open it
-	observer.observe(target, {  // Add observer anyway (in case it changes)
-		childList: true,
-		characterData: true,
-		attributes: false,
-		subtree: true
+// console.log("start");
+waitUntilExists(document, mainCardClass, -1).then(() => {
+	var targets = Array.prototype.slice.call(document.getElementsByClassName(mainCardClass));
+	// console.log(targets);
+	targets.forEach(target => {
+		waitUntilExists(target, containerClass, -1).then(() => {
+			waitUntilExists(target, linkDivClass, 2000).then(() => {
+				tryOpenMeetLink(target, linkDivClass, false);  // If the link is already there -> try to open it
+				observer.observe(target, {  // Add observer anyway (in case it changes)
+					childList: true,
+					characterData: true,
+					attributes: false,
+					subtree: true
+				});
+			});
+		});
 	});
 });
-
