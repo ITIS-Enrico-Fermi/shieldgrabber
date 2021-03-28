@@ -3,6 +3,7 @@
 const mainCardClass = 'qyN25';
 const linkDivClass = 'QRiHXd';
 const containerClass = 'T4tcpe n0p5v';  // Title, subtitle and link (if exists) container
+var userId = 0;
 
 let waitUntilExists = async (parentNode, className, timeoutTime) => {  // if timeoutTime === -1 -> wait forever 
 	const sleepTime = 500
@@ -20,7 +21,7 @@ let tryOpenMeetLink = (parentNode, linkClass, open) => {
                         if (!link.firstChild) return;
                         if (!link.firstChild.data) return;
 			if (open)
-                        	window.open(link.firstChild.data);
+                        	window.open(link.firstChild.data+`?authuser=${userId}`);
 			else  // Debugging purposes
 				console.log(link.firstChild.data);
                 });
@@ -38,6 +39,15 @@ let observer = new MutationObserver(mutationRecords => {
 		});
 	});
 });
+
+
+let getting = browser.storage.sync.get("userId");
+getting.then(item => {
+	userId = item.userId;
+}, error => {
+	console.log(`An error occured: ${error}`);
+});
+
 
 // console.log("start");
 waitUntilExists(document, mainCardClass, -1).then(() => {

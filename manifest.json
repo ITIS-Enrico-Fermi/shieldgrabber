@@ -16,6 +16,17 @@
 			"run_at": "document_idle"
 		}
 	],
-	"permissions": ["storage"]
+	
+	"permissions": ["storage"],
+	
+	"options_ui": {
+		"page": "options/options.html"
+	},
+
+	"browser_specific_settings": {
+		"gecko" : {
+			"id": "addon@shieldgrabber.com"
+		}
+	}
 }
 
