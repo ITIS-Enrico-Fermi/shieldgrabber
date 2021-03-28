@@ -55,8 +55,8 @@ waitUntilExists(document, mainCardClass, -1).then(() => {
 	// console.log(targets);
 	targets.forEach(target => {
 		waitUntilExists(target, containerClass, -1).then(() => {
-			waitUntilExists(target, linkDivClass, 2000).then(() => {
-				tryOpenMeetLink(target, linkDivClass, false);  // If the link is already there -> try to open it
+			waitUntilExists(target, linkDivClass, 500).then(() => {
+				tryOpenMeetLink(target, linkDivClass, true);  // If the link is already there -> try to open it
 				observer.observe(target, {  // Add observer anyway (in case it changes)
 					childList: true,
 					characterData: true,
