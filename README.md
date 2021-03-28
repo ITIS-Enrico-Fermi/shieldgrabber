@@ -7,9 +7,11 @@ Firefox extension to grab Google Meet blue shield (host controls) before the mee
 
 # Getting started
 ## Installation
-Official AMO (Addons Mozilla Org) url: 
+Official AMO (Addons Mozilla Org) url: signing in progress...
 
-Otherwise install extension from local settings. Go to `about:addons` -> gear icon -> _Install Add-on From File..._ -> Pick the `.zip` package
+Otherwise install extension from local settings. 
+First of all, disable signatures check: `about:config` -> turn xpinstall.signatures.required into `false`
+The, go to `about:addons` -> gear icon -> _Install Add-on From File..._ -> Pick the `.zip` package
 
 ## Settings
 You can change default user id from `about:addons` page. Clink on the three dots, then _Preferences_. Change _Google user id_ value with the id corresponding to your preferred account, according to the one you want to use during auto-login process. Once the input box is updated, press _Save_ button.
