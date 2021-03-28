@@ -1,7 +1,14 @@
-"use strict";
+'use strict';
 
-const mainCardClass = "qyN25";
-const linkDivClass = "QRiHXd";
+const mainCardClass = 'qyN25';
+const linkDivClass = 'QRiHXd';
+
+let waitUntilExists = async className => {
+	while (!document.getElementsByClassName(className).length) {
+		console.log("waiting");
+		await new Promise(r => setTimeout(r, 500));
+	}
+}
 
 let tryOpenMeetLink = (parentNode, linkClass, open) => {
 	if (parentNode.getElementsByClassName(linkClass).length !== 0) {
@@ -28,6 +35,10 @@ let observer = new MutationObserver(mutationRecords => {
 		});
 	});
 });
+
+console.log("start");
+waitUntilExists(mainCardClass);
+console.log("finis waiting");
 
 var targets = Array.prototype.slice.call(document.getElementsByClassName(mainCardClass));
 // console.log(targets);
