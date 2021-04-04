@@ -7,7 +7,7 @@ Firefox extension to grab Google Meet blue shield (host controls) before the mee
 
 # Getting started
 ## Installation
-Official AMO (Addons Mozilla Org) url: signing in progress...
+Official AMO (Addons Mozilla Org) url: https://addons.mozilla.org/en-US/firefox/addon/blue-shield-grabber/
 
 Otherwise install this extension from local settings. 
 First of all, disable signatures check: `about:config` -> turn _xpinstall.signatures.required_ into `false`.
