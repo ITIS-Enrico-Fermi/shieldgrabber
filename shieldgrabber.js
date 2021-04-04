@@ -10,6 +10,8 @@ var userId = 0;
 var rBody;
 var rHeaders;
 var counter = 0;
+var lastUrl = '';  // Even if the link is hidden, classroom's servers keep it in memory
+var openedUrls = 0;
 
 let openMeetLink = (link, open=true) => {
 	if (open)
@@ -34,20 +36,25 @@ browser.runtime.onMessage.addListener(data => {
 
 // Check if url and open it. Fired every second
 var tid = setInterval(() => {
-	var xhr = new XMLHttpRequest();
-	xhr.onload = function () {
-		if (this.status !== 200) return;
-		const url = meetRe.exec(this.responseText)[1];
-		if (url) {
-			openMeetLink(url);
-			clearInterval(tid);
+	if (openedUrls >= 2)
+		clearInterval(tid);
+	if (rBody && rHeaders) {
+		var xhr = new XMLHttpRequest();
+		xhr.onload = function () {
+			if (this.status !== 200) return;
+			const url = meetRe.exec(this.responseText)[1];
+			if (url && url !== lastUrl) {
+				openMeetLink(url);
+				lastUrl = url;
+				openedUrls++;
+			}
 		}
-	}
-	xhr.open(rHeaders.method, rHeaders.url, true);
-	rHeaders.requestHeaders.forEach((header) => {
-		xhr.setRequestHeader(header.name, header.value);
-	});
-	browser.runtime.sendMessage({requestsCounter: ++counter});
-	xhr.send(`f.req=${encodeURI(payload)}&token=${encodeURI(rBody.requestBody.formData.token)}&`);
+		xhr.open(rHeaders.method, rHeaders.url, true);
+		rHeaders.requestHeaders.forEach((header) => {
+			xhr.setRequestHeader(header.name, header.value);
+		});
+		browser.runtime.sendMessage({requestsCounter: ++counter});
+		xhr.send(`f.req=${encodeURI(payload)}&token=${encodeURI(rBody.requestBody.formData.token)}&`);
+	}	
 }, 1000);
 // console.log("finished");
