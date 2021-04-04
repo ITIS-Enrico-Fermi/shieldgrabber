@@ -1,4 +1,3 @@
-const payload = '[[null,null,null,null],[null,null,null,null,null,null,null,null,[null,null,null,null,null,null,[null,null],null,[null],null,null,null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null],null,null,null,null,null,null,null,[null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null],[null,true,null],null,null],[null,[["40220341253"]],[],[],null,[],[]]]';
 var requestsBodyList = [];
 
 let requestsBodyListener = (requestDetails) => {
