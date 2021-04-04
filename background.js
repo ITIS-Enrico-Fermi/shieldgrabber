@@ -1,5 +1,4 @@
 const payload = '[[null,null,null,null],[null,null,null,null,null,null,null,null,[null,null,null,null,null,null,[null,null],null,[null],null,null,null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null],null,null,null,null,null,null,null,[null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null],[null,true,null],null,null],[null,[["40220341253"]],[],[],null,[],[]]]';
-const meetRe = new RegExp(".+(\"https?://meet.google.com.+\").+", "ig");
 var requestsBodyList = [];
 
 let requestsBodyListener = (requestDetails) => {
@@ -18,34 +17,39 @@ let requestsHeadersListener = (requestDetails) => {
 		browser.webRequest.onBeforeRequest.removeListener(requestsBodyListener);
 		// console.log(requestDetails);
 		// console.log(body);
-		var xhr = new XMLHttpRequest();
-		xhr.onload = function () {
-			if (this.status !== 200) return;
-			const url = meetRe.exec(this.responseText)[1];
-			console.log(url);
-			
-		}
-		xhr.open(requestDetails.method, requestDetails.url, true);
-		requestDetails.requestHeaders.forEach((header) => {
-			xhr.setRequestHeader(header.name, header.value);
+		browser.tabs.query({active: true, currentWindow: true}).then(tabs => {
+			tabs.forEach(tab => {
+				browser.tabs.sendMessage(
+					tab.id,
+					{requestBody: body, requestHeaders: requestDetails}
+				);
+			});
 		});
-		xhr.send(`f.req=${encodeURI(payload)}&token=${encodeURI(body.requestBody.formData.token)}&`);
 	}
 }
 
-browser.webRequest.onBeforeRequest.addListener(
-	requestsBodyListener,
-	{
-		urls: ["*://classroom.google.com/*/querycourse*"],
-	},
-	["requestBody"]
-);
+browser.runtime.onMessage.addListener((data, sender, sendResponse) => {
+	// console.log(data.content);
+	if (data.command !== "start") return;
+	if (!browser.webRequest.onBeforeRequest.hasListener(requestsBodyListener) && !browser.webRequest.onBeforeSendHeaders.hasListener(requestsHeadersListener)) {
+		browser.webRequest.onBeforeRequest.addListener(
+			requestsBodyListener,
+			{
+				urls: ["*://classroom.google.com/*/querycourse*"],
+			},
+			["requestBody"]
+		);
 
-browser.webRequest.onBeforeSendHeaders.addListener(
-        requestsHeadersListener,
-        {
-                urls: ["*://classroom.google.com/*/querycourse*"],
-        },
-        ["requestHeaders"]
-);
+		browser.webRequest.onBeforeSendHeaders.addListener(
+			requestsHeadersListener,
+			{
+				urls: ["*://classroom.google.com/*/querycourse*"],
+			},
+			["requestHeaders"]
+		);
+		sendResponse({status: "started"});
+	} else {
+		sendResponse({status: "running"});
+	}
 
+});
