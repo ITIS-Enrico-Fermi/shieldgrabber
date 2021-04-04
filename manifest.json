@@ -16,8 +16,12 @@
 			"run_at": "document_idle"
 		}
 	],
+
+	"background": {
+		"scripts": ["background.js"]
+	},
 	
-	"permissions": ["storage", "webRequest", "*://classroom.google.com/*/querycourse"],
+	"permissions": ["storage", "webRequest", "*://classroom.google.com/*/querycourse*"],
 	
 	"options_ui": {
 		"page": "options/options.html"
