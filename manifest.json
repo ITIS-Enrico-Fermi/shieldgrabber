@@ -21,7 +21,7 @@
 		"scripts": ["background.js"]
 	},
 	
-	"permissions": ["storage", "webRequest", "*://classroom.google.com/*/querycourse*"],
+	"permissions": ["storage", "notifications", "webRequest", "*://classroom.google.com/*/querycourse*"],
 	
 	"options_ui": {
 		"page": "options/options.html"
