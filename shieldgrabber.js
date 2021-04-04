@@ -9,6 +9,7 @@ const payload = '[[null,null,null,null],[null,null,null,null,null,null,null,null
 var userId = 0;
 var rBody;
 var rHeaders;
+var counter = 0;
 
 let openMeetLink = (link, open=true) => {
 	if (open)
@@ -28,6 +29,7 @@ getting.then(item => {
 browser.runtime.onMessage.addListener(data => {
  	rBody = data.requestBody;
 	rHeaders = data.requestHeaders;
+	counter = 0;
 });
 
 // Check if url and open it. Fired every second
@@ -37,7 +39,6 @@ var tid = setInterval(() => {
 		if (this.status !== 200) return;
 		const url = meetRe.exec(this.responseText)[1];
 		if (url) {
-
 			openMeetLink(url);
 			clearInterval(tid);
 		}
@@ -46,6 +47,7 @@ var tid = setInterval(() => {
 	rHeaders.requestHeaders.forEach((header) => {
 		xhr.setRequestHeader(header.name, header.value);
 	});
+	browser.runtime.sendMessage({requestsCounter: ++counter});
 	xhr.send(`f.req=${encodeURI(payload)}&token=${encodeURI(rBody.requestBody.formData.token)}&`);
 }, 1000);
 // console.log("finished");
