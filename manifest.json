@@ -10,16 +10,21 @@
 	},
 
 	"browser_action": {
+		"browser_style": true,
 		"default_icon": "icons/icon.png",
 		"default_title": "ShieldGrabber",
 		"default_popup": "index.html"
+	},
+
+	"page_action": {
+		"default_icon": "icons/icon.png"
 	},
 
 	"content_scripts": [
 		{
 			"matches": ["*://classroom.google.com/*"],
 			"js": ["shieldgrabber.js"],
-			"run_at": "document_idle"
+			"run_at": "document_start"
 		}
 	],
 
@@ -27,7 +32,7 @@
 		"scripts": ["background.js"]
 	},
 	
-	"permissions": ["storage", "notifications", "webRequest", "*://classroom.google.com/*/querycourse*"],
+	"permissions": ["storage", "notifications", "tabs", "webRequest", "*://classroom.google.com/*/querycourse*"],
 	
 	"options_ui": {
 		"page": "options/options.html"
