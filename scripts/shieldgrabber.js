@@ -4,7 +4,8 @@ const mainCardClass = 'qyN25';
 const linkDivClass = 'QRiHXd';
 const containerClass = 'T4tcpe n0p5v';  // Title, subtitle and link (if exists) container
 const meetRe = new RegExp(".+\"(https?://meet.google.com.+)\".+", "ig");
-const payload = '[[null,null,null,null],[null,null,null,null,null,null,null,null,[null,null,null,null,null,null,[null,null],null,[null],null,null,null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null],null,null,null,null,null,null,null,[null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null],[null,true,null],null,null],[null,[["40220341253"]],[],[],null,[],[]]]';
+const courseId = atob(window.location.pathname.split("/").pop()).substring(0, 11);
+const payload = `[[null,null,null,null],[null,null,null,null,null,null,null,null,[null,null,null,null,null,null,[null,null],null,[null],null,null,null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null],null,null,null,null,null,null,null,[null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null],[null,true,null],null,null],[null,[["${courseId}"]],[],[],null,[],[]]]`;
 
 var userId = 0;
 var rBody;
@@ -53,7 +54,7 @@ var tid = setInterval(() => {
 		rHeaders.requestHeaders.forEach((header) => {
 			xhr.setRequestHeader(header.name, header.value);
 		});
-		browser.runtime.sendMessage({requestsCounter: ++counter});
+		browser.runtime.sendMessage({requestsCounter: ++counter, currentTarget: btoa(courseId)});
 		xhr.send(`f.req=${encodeURI(payload)}&token=${encodeURI(rBody.requestBody.formData.token)}&`);
 	}	
 }, 1000);
