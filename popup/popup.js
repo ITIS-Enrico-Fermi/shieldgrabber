@@ -15,4 +15,6 @@ document.getElementById("start-btn").addEventListener("click", () => {
 browser.runtime.onMessage.addListener(data => {
 	if (data.requestsCounter)
 		document.getElementById("requests-counter").innerHTML = data.requestsCounter;
+	if (data.currentTarget)
+		document.getElementById("current-target").innerHTML = data.currentTarget;
 });
