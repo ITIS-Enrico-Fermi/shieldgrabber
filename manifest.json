@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "ShieldGrabber",
-	"version": "2.1",
+	"version": "2.2",
 
 	"description": "Firefox extension to grab Google Meet blue shield (host controls) before the meeting creator.",
 	"icons": {
