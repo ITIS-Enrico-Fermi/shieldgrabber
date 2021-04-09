@@ -4,7 +4,7 @@ const mainCardClass = 'qyN25';
 const linkDivClass = 'QRiHXd';
 const containerClass = 'T4tcpe n0p5v';  // Title, subtitle and link (if exists) container
 const meetRe = new RegExp(".+\"(https?://meet.google.com.+)\".+", "ig");
-const courseId = atob(window.location.pathname.split("/").pop()).substring(0, 11);
+const courseId = atob(window.location.pathname.split("/").pop()).replace(/[a-z]/ig, "");
 const payload = `[[null,null,null,null],[null,null,null,null,null,null,null,null,[null,null,null,null,null,null,[null,null],null,[null],null,null,null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null],null,null,null,null,null,null,null,[null,null],null,null,null,null,null,null,null,null,null,null,null,[null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null],[null,null,null],[null,true,null],null,null],[null,[["${courseId}"]],[],[],null,[],[]]]`;
 
 var userId = 0;
